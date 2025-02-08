@@ -26,7 +26,7 @@ public class BankingApp {
         String mailingAddress = scnr.nextLine();
 
         System.out.print("SSN: ");
-        String ssn = scnr.nextLine();
+        String SSN = scnr.nextLine();
 
         System.out.print("Phone Number: ");
         String phoneNumber = scnr.nextLine();
@@ -43,7 +43,7 @@ public class BankingApp {
         System.out.print("Password: ");
         String password = scnr.nextLine();
 
-        User newUser = new User(firstName, lastName, dateOfBirth, gender, physicalAddress, mailingAddress, ssn, phoneNumber, emailAddress, occupation, username, password);
+        User newUser = new User(firstName, lastName, dateOfBirth, gender, physicalAddress, mailingAddress, SSN, phoneNumber, emailAddress, occupation, username, password);
         listOfUsers.add(newUser);
 
         FileOutputStream fos = null;
@@ -72,7 +72,7 @@ public class BankingApp {
 
     public static boolean openPersonalBanking(Scanner scnr) {
         boolean isRunning = true;
-        
+
         while (isRunning) {
             printPersonalBanking();
             int choice = scnr.nextInt();
