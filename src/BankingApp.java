@@ -1,49 +1,40 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.io.OutputStream;
 
 public class BankingApp {
     public static ArrayList<User> listOfUsers = new ArrayList<User>();
 
+    public static boolean loadUsers() {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream("PersonalBankingUsers.txt");
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+
+        Scanner reader = new Scanner(fis);
+        while (reader.hasNextLine()) {
+            String[] line = reader.nextLine().split(", ");
+            User existingUser = new User(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11]);
+            listOfUsers.add(existingUser);
+        }
+        reader.close();
+
+        return (listOfUsers.size() != 0) ? true : false;
+    }
+
     public static boolean registerNewUser (Scanner scnr) {
-        System.out.print("First Name: ");
-        String firstName = scnr.nextLine();
+        String[] fields = {"First Name", "Last Name", "Date of Birth (MM/DD/YYYY)", "Gender", "Physical Address", "Mailing Address", "SSN", "Phone Number", "Email Address", "Occupation", "Username", "Password"};
+        String[] responses = new String[fields.length];
 
-        System.out.print("Last Name: ");
-        String lastName = scnr.nextLine();
+        for (int i = 0; i < fields.length; i++) {
+            System.out.print(fields[i] + ": ");
+            responses[i] = scnr.nextLine();                             // FIX THIS: Add an algorithm to check if the username has already been taken
+        }
 
-        System.out.print("Date of Birth: ");
-        String dateOfBirth = scnr.nextLine();
-
-        System.out.print("Gender: ");
-        String gender = scnr.nextLine();
-
-        System.out.print("Physical Address: ");
-        String physicalAddress = scnr.nextLine();
-
-        System.out.print("Mailing Address: ");
-        String mailingAddress = scnr.nextLine();
-
-        System.out.print("SSN: ");
-        String SSN = scnr.nextLine();
-
-        System.out.print("Phone Number: ");
-        String phoneNumber = scnr.nextLine();
-
-        System.out.print("Email Address: ");
-        String emailAddress = scnr.nextLine();
-
-        System.out.print("Occupation: ");
-        String occupation = scnr.nextLine();
-
-        System.out.print("Username: ");                         // FIX THIS: Add an algorithm to check if the username has already been taken
-        String username = scnr.nextLine();
-
-        System.out.print("Password: ");
-        String password = scnr.nextLine();
-
-        User newUser = new User(firstName, lastName, dateOfBirth, gender, physicalAddress, mailingAddress, SSN, phoneNumber, emailAddress, occupation, username, password);
+        User newUser = new User(responses[0], responses[1], responses[2], responses[3], responses[4], responses[5], responses[6], responses[7], responses[8], responses[9], responses[10], responses[11]);
         listOfUsers.add(newUser);
 
         FileOutputStream fos = null;
@@ -54,7 +45,10 @@ public class BankingApp {
             return false;
         }
         PrintWriter writer = new PrintWriter(fos);
-        writer.println(listOfUsers.size() + "-->" + firstName + ", " + lastName + ", " + dateOfBirth + ", " + gender + ", " + physicalAddress + ", " + mailingAddress + ", " + ssn + ", " + phoneNumber + ", " + emailAddress + ", " + occupation + ", " + username + ", " + password);
+        for (String response: responses) {
+            writer.print(response + ", ");
+        }
+        writer.println();
         writer.flush();
         writer.close();
 
@@ -67,34 +61,72 @@ public class BankingApp {
         System.out.println("1. Register a new User");
         System.out.println("2. Login existing users");
         System.out.println("3. Exit");
+        System.out.println("------------------------------------");
     }
 
+    public static User searchUser (String username) {
+        for (User user: listOfUsers) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
 
     public static boolean openPersonalBanking(Scanner scnr) {
         boolean isRunning = true;
 
         while (isRunning) {
             printPersonalBanking();
-            int choice = scnr.nextInt();
-            scnr.nextLine();                            // Flush the newline character left in the previous line
+            try {
+                int choice = scnr.nextInt();
+                scnr.nextLine();            // Flush the newline character left in the previous line
 
-            switch (choice){
-                case 1:
-                    boolean registered = registerNewUser(scnr);
-                    break;
-                case 2:
-                    System.out.println("Not implemented yet");
-                    break;
-                case 3:
-                    System.out.println("Exiting ...");
-                    isRunning = false;
-                    break;
-                default:
-                    System.out.println("Invalid Input");
-                    break;
+                switch (choice){
+                    case 1:
+                        boolean registered = registerNewUser(scnr);
+                        break;
+                    case 2:
+                        boolean usersLoaded = loadUsers();
+                        if (usersLoaded) {
+                            while (true) {
+                                System.out.println("------------------------------------");
+                                System.out.print("Enter your username: ");
+                                String username = scnr.nextLine();
+                                System.out.print("Enter your password: ");
+                                String password = scnr.nextLine();
+
+                                User user = searchUser(username);
+                                if (user == null) {
+                                    System.out.println("Wrong username or password!");
+                                }
+                                else if (user.matchLogin(username, password)) {
+                                    System.out.println("You have successfully logged in!");
+                                    break;
+                                }
+                                else {
+                                    System.out.println("Wrong username or password!");
+                                }
+                            }
+                        }
+                        else {
+                            System.out.println("The program cannot access the list of existing users at this time. Please try again!");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Exiting ...");
+                        isRunning = false;
+                        break;
+                    default:
+                        System.out.println("Invalid Input. Please try again.");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Input. Please try again.\n");
+                scnr.nextLine();                        // *****Consume the invalid input to prevent an infinite loop
             }
         }
-
         return true;
     }
 
@@ -104,7 +136,9 @@ public class BankingApp {
         return true;
     }
 
+
     public static void main(String[] args) {
+
         Scanner scnr = new Scanner(System.in);
         boolean portalClosed = false;
 

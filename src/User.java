@@ -48,5 +48,12 @@ public class User {
 
     }
 
+    public String getUsername() {
+        return userName;
+    }
+
+    public boolean matchLogin (String username, String password) {
+        return username.equals(this.firstName) && password.equals(this.password);
+    }
 
 }
