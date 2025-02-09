@@ -22,7 +22,7 @@ public class BankingApp {
         }
         reader.close();
 
-        return (listOfUsers.size() != 0) ? true : false;
+        return !listOfUsers.isEmpty();
     }
 
     public static boolean registerNewUser (Scanner scnr) {
@@ -44,7 +44,7 @@ public class BankingApp {
             System.out.println("The program cannot register new users at this time. Please try again later!");
             return false;
         }
-        PrintWriter writer = new PrintWriter(fos);
+        PrintWriter writer = new PrintWriter(fos);                      // Can move this to User class
         for (String response: responses) {
             writer.print(response + ", ");
         }
@@ -86,6 +86,9 @@ public class BankingApp {
                 switch (choice){
                     case 1:
                         boolean registered = registerNewUser(scnr);
+                        if (!registered) {
+                            System.out.println("The program could not register you at this time. Please try again later!");
+                        }
                         break;
                     case 2:
                         boolean usersLoaded = loadUsers();
@@ -103,7 +106,7 @@ public class BankingApp {
                                 }
                                 else if (user.matchLogin(username, password)) {
                                     System.out.println("You have successfully logged in!");
-                                    break;
+                                    break;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
                                 }
                                 else {
                                     System.out.println("Wrong username or password!");
@@ -124,7 +127,7 @@ public class BankingApp {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Input. Please try again.\n");
-                scnr.nextLine();                        // *****Consume the invalid input to prevent an infinite loop
+                scnr.nextLine();                        // *****Consume the invalid input to prevent infinite loop
             }
         }
         return true;
