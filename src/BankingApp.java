@@ -25,7 +25,7 @@ public class BankingApp {
         return !listOfUsers.isEmpty();
     }
 
-    public static boolean registerNewUser (Scanner scnr) {
+    public static boolean registerNewUser (Scanner scnr) {               // Can move this method to User class for better encapsulation
         String[] fields = {"First Name", "Last Name", "Date of Birth (MM/DD/YYYY)", "Gender", "Physical Address", "Mailing Address", "SSN", "Phone Number", "Email Address", "Occupation", "Username", "Password"};
         String[] responses = new String[fields.length];
 
