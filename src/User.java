@@ -34,19 +34,19 @@ public class User {
     // CAN ADD SOME MORE INFORMATION REGARDING USER'S PREFERENCE FOR RECEIVING NOTIFICATIONS, i.e. email, sms, etc.
     //------------------------
 
-    public User (String firstName, String lastName, String dateOfBirth, String gender, String physicalAddress, String mailingAddress, String SSN, String phoneNumber, String email, String occupation, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.physicalAddress = physicalAddress;
-        this.mailingAddress = mailingAddress;
-        this.SSN = SSN;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.occupation = occupation;
-        this.username = username;
-        this.password = password;
+    public User (String[] data) {
+        this.firstName = data[0];
+        this.lastName = data[1];
+        this.dateOfBirth = data[2];
+        this.gender = data[3];
+        this.physicalAddress = data[3];
+        this.mailingAddress = data[5];
+        this.SSN = data[6];
+        this.phoneNumber = data[7];
+        this.email = data[8];
+        this.occupation = data[9];
+        this.username = data[10];
+        this.password = data[11];
 
         this.userID = generateUserID();
     }
