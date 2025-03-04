@@ -16,6 +16,7 @@ public class BankingApp {
         while (isRunning) {
             printPersonalBanking();
             int choice;
+
             try {
                 choice = scnr.nextInt();
                 scnr.nextLine();            // Flush the newline character left in the previous line
@@ -24,6 +25,7 @@ public class BankingApp {
                 scnr.nextLine();                        // *****Consume the invalid input to prevent infinite loop
                 continue;
             }
+
             switch (choice){
                 case 1:
                     boolean registered = UserService.registerNewUser(scnr);
@@ -36,32 +38,15 @@ public class BankingApp {
                     break;
 
                 case 2:                                                  // BEGIN CHECKING FORM THIS CASE ONWARD --> Checkpoint
-                    boolean usersLoaded = UserService.loadUsers();
-                    if (usersLoaded) {
-                        while (true) {
-                            System.out.println("------------------------------------");
-                            System.out.print("Enter your username: ");
-                            String username = scnr.nextLine();
-                            System.out.print("Enter your password: ");
-                            String password = scnr.nextLine();
-
-                            User user = UserService.searchUser(username);
-                            if (user == null) {
-                                System.out.println("Wrong username or password!");
-                            }
-                            else if (user.matchLogin(username, password)) {
-                                System.out.println("\nYou have successfully logged in!");
-                                break;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
-                            }
-                            else {
-                                System.out.println("Wrong username or password!");
-                            }
+                    try {
+                        if (UserService.handleLogin(scnr)) {
+                            System.out.println("You have successfully logged in!");
+                            break;
                         }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
-                    else {
-                        System.out.println("The program cannot access the list of existing users at this time. Please try again!");
-                    }
-                    break;
+                    break;                                              // This breaks out of the switch statement if the previous conditions was not true.
 
                 case 3:
                     System.out.println("Exiting ...");
@@ -89,12 +74,12 @@ public class BankingApp {
 
         try {
             if (Integer.parseInt(args[0]) == 1) {
-                System.out.println("Accessing Personal Banking");
+                System.out.println("Accessing Personal Banking ...");
                 portalClosed = openPersonalBanking(scnr);
 
             }
             else if (Integer.parseInt(args[0]) == 2) {
-                System.out.println("Accessing Business Banking");
+                System.out.println("Accessing Business Banking ...");
                 portalClosed = openBusinessBanking(scnr);
             }
             else {

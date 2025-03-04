@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class UserService {
     private static ArrayList<User> listOfUsers = new ArrayList<User>();
+    private static boolean usersLoaded = false;
 
     public static boolean loadUsers() {
         FileInputStream fis = null;
@@ -39,8 +40,37 @@ public class UserService {
         User newUser = new User(responses);
         listOfUsers.add(newUser);
 
-
         return writeUserToFile(responses);
+    }
+
+    public static boolean handleLogin (Scanner scnr) throws Exception{
+        if (!usersLoaded) {                                 // Load the users if they have not yet been loaded
+            usersLoaded = loadUsers();
+            if (usersLoaded == false) {                     // If the program could not load the list of existing users, it would throw an exception to the method call
+                throw new Exception ("The program cannot access the list of existing users at this time. Please try again!");
+            }
+        }
+
+        System.out.println("------------------------------------");
+        System.out.print("Enter your username: ");
+        String username = scnr.nextLine();
+        System.out.print("Enter your password: ");
+
+        String password = scnr.nextLine();
+        User user = UserService.searchUser(username);
+
+        if (user == null) {
+            System.out.println("Wrong username or password!");
+        }
+        else if (user.matchLogin(username, password)) {
+            System.out.println("You have successfully logged in!");
+            return true;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
+        }
+        else {
+            System.out.println("Wrong username or password!");
+        }
+
+        return handleLogin(scnr);
     }
 
     public static boolean writeUserToFile (String[] responses) {

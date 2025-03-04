@@ -39,7 +39,7 @@ public class User {
         this.lastName = data[1];
         this.dateOfBirth = data[2];
         this.gender = data[3];
-        this.physicalAddress = data[3];
+        this.physicalAddress = data[4];
         this.mailingAddress = data[5];
         this.SSN = data[6];
         this.phoneNumber = data[7];
