@@ -15,58 +15,62 @@ public class BankingApp {
 
         while (isRunning) {
             printPersonalBanking();
+            int choice;
             try {
-                int choice = scnr.nextInt();
+                choice = scnr.nextInt();
                 scnr.nextLine();            // Flush the newline character left in the previous line
-
-                switch (choice){
-                    case 1:
-                        boolean registered = UserService.registerNewUser(scnr);
-                        if (registered) {
-                            System.out.println("New User has been successfully registered!");
-                        }
-                        else {
-                            System.out.println("The program could not register you at this time. Please try again later!");
-                        }
-                        break;
-                    case 2:
-                        boolean usersLoaded = UserService.loadUsers();
-                        if (usersLoaded) {
-                            while (true) {
-                                System.out.println("------------------------------------");
-                                System.out.print("Enter your username: ");
-                                String username = scnr.nextLine();
-                                System.out.print("Enter your password: ");
-                                String password = scnr.nextLine();
-
-                                User user = UserService.searchUser(username);
-                                if (user == null) {
-                                    System.out.println("Wrong username or password!");
-                                }
-                                else if (user.matchLogin(username, password)) {
-                                    System.out.println("\nYou have successfully logged in!");
-                                    break;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
-                                }
-                                else {
-                                    System.out.println("Wrong username or password!");
-                                }
-                            }
-                        }
-                        else {
-                            System.out.println("The program cannot access the list of existing users at this time. Please try again!");
-                        }
-                        break;
-                    case 3:
-                        System.out.println("Exiting ...");
-                        isRunning = false;
-                        break;
-                    default:
-                        System.out.println("Invalid Input. Please try again.");
-                        break;
-                }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Input. Please try again.\n");
                 scnr.nextLine();                        // *****Consume the invalid input to prevent infinite loop
+                continue;
+            }
+            switch (choice){
+                case 1:
+                    boolean registered = UserService.registerNewUser(scnr);
+                    if (registered) {
+                        System.out.println("New User has been successfully registered!");
+                    }
+                    else {
+                        System.out.println("The program could not register you at this time. Please try again later!");
+                    }
+                    break;
+
+                case 2:                                                  // BEGIN CHECKING FORM THIS CASE ONWARD --> Checkpoint
+                    boolean usersLoaded = UserService.loadUsers();
+                    if (usersLoaded) {
+                        while (true) {
+                            System.out.println("------------------------------------");
+                            System.out.print("Enter your username: ");
+                            String username = scnr.nextLine();
+                            System.out.print("Enter your password: ");
+                            String password = scnr.nextLine();
+
+                            User user = UserService.searchUser(username);
+                            if (user == null) {
+                                System.out.println("Wrong username or password!");
+                            }
+                            else if (user.matchLogin(username, password)) {
+                                System.out.println("\nYou have successfully logged in!");
+                                break;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
+                            }
+                            else {
+                                System.out.println("Wrong username or password!");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("The program cannot access the list of existing users at this time. Please try again!");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting ...");
+                    isRunning = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid Input. Please try again.");
+                    break;
             }
         }
         return true;
@@ -80,7 +84,6 @@ public class BankingApp {
 
 
     public static void main(String[] args) {
-
         Scanner scnr = new Scanner(System.in);
         boolean portalClosed = false;
 
@@ -95,14 +98,16 @@ public class BankingApp {
                 portalClosed = openBusinessBanking(scnr);
             }
             else {
-                System.out.println("Invalid argument passed: Please pass '1' for Personal Banking or '2' for Business Banking.");
-                System.exit(1);
+                throw new Exception ("Invalid argument passed: Please pass '1' for Personal Banking or '2' for Business Banking.");
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("No arguments passed: Please pass '1' for Personal Banking or '2' for Business Banking.");
             System.exit(1);
         } catch (NumberFormatException e) {
             System.out.println("Invalid input: Please pass '1' for Personal Banking or '2' for Business Banking.");
+            System.exit(1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.exit(1);
         }
     }
