@@ -1,10 +1,7 @@
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankingApp {
-    public static ArrayList<User> listOfUsers = new ArrayList<User>();
-
     public static void printPersonalBanking () {
         System.out.println("===========Banking System===========");
         System.out.println("1. Register a new User");
