@@ -3,27 +3,24 @@ public class Lender {
     private String category;                            // Can create some subclasses for each category, since the required values for each category are different
     private String name;
 
-    private int minAPI;                                 // Should probably choose another name to avoid ambiguity
-    private int maxAPI;
+    private int minAPR;                                 // Should probably choose another name to avoid ambiguity
+    private int maxAPR;
+    private int maxLoanTermMonths;
     private int minCreditScore;
     private int minLoanAmount;
     private int maxLoanAmount;
-    private int maxLoanTermMonths;
-    private int avgTimeToFund;
-
     private String BBBRating;
 
-    public Lender (String category, String name, int minAPI, int maxAPI, int minCreditScore, int minLoanAmount,
-                   int maxLoanAmount, int maxLoanTermMonths, int avgTimeToFund, String BBBRating) {
+    public Lender (String category, String name, int minAPR, int maxAPR, int maxLoanTermMonths, int minCreditScore,
+                   int minLoanAmount, int maxLoanAmount, String BBBRating) {
         this.category = category;
         this.name = name;
-        this.minAPI = minAPI;
-        this.maxAPI = maxAPI;
+        this.minAPR = minAPR;
+        this.maxAPR = maxAPR;
         this.minCreditScore = minCreditScore;
         this.minLoanAmount = minLoanAmount;
         this.maxLoanAmount = maxLoanAmount;
         this.maxLoanTermMonths = maxLoanTermMonths;
-        this.avgTimeToFund = avgTimeToFund;
         this.BBBRating = BBBRating;
     }
 
@@ -39,9 +36,9 @@ public class Lender {
 
     public String getName() { return name; }
 
-    public int getMinAPI() { return minAPI; }
+    public int getMinAPI() { return minAPR; }
 
-    public int getMaxAPI() { return maxAPI; }
+    public int getMaxAPI() { return maxAPR; }
 
     public int getMinCreditScore() { return minCreditScore; }
 
@@ -50,8 +47,6 @@ public class Lender {
     public int getMaxLoanAmount() { return maxLoanAmount; }
 
     public int getMaxLoanTermMonths() { return maxLoanTermMonths; }
-
-    public int getAvgTimeToFund() { return avgTimeToFund; }
 
     public String getBBBRating() { return BBBRating; }
 
