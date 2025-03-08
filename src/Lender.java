@@ -9,13 +9,12 @@ public class Lender {
     private int minLoanAmount;
     private int maxLoanAmount;
     private int maxLoanTermMonths;
-    private int originationFee;
     private int avgTimeToFund;
 
     private String BBBRating;
 
     public Lender (String category, String name, int minAPI, int maxAPI, int minCreditScore, int minLoanAmount,
-                   int maxLoanAmount, int maxLoanTermMonths, int originationFee, int avgTimeToFund, String BBBRating) {
+                   int maxLoanAmount, int maxLoanTermMonths, int avgTimeToFund, String BBBRating) {
         this.category = category;
         this.name = name;
         this.minAPI = minAPI;
@@ -24,8 +23,15 @@ public class Lender {
         this.minLoanAmount = minLoanAmount;
         this.maxLoanAmount = maxLoanAmount;
         this.maxLoanTermMonths = maxLoanTermMonths;
-        this.originationFee = originationFee;
         this.avgTimeToFund = avgTimeToFund;
+        this.BBBRating = BBBRating;
+    }
+
+    // Constructor for the subclass HomeLoanLenders
+    public Lender (String category, String name, int minCreditScore, String BBBRating) {
+        this.category = category;
+        this.name = name;
+        this.minCreditScore = minCreditScore;
         this.BBBRating = BBBRating;
     }
 
@@ -45,8 +51,6 @@ public class Lender {
 
     public int getMaxLoanTermMonths() { return maxLoanTermMonths; }
 
-    public int getOriginationFee() { return originationFee; }
-
     public int getAvgTimeToFund() { return avgTimeToFund; }
 
     public String getBBBRating() { return BBBRating; }
@@ -54,3 +58,5 @@ public class Lender {
 
 
 }
+
+
