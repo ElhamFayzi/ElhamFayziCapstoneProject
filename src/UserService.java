@@ -63,7 +63,6 @@ public class UserService {
             System.out.println("Wrong username or password!");
         }
         else if (user.matchLogin(username, password)) {
-            System.out.println("You have successfully logged in!");
             return true;                                      // Should break out of the loop if the login information was correct; it would be infinite loop otherwise
         }
         else {

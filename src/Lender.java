@@ -3,15 +3,15 @@ public class Lender {
     private String category;                            // Can create some subclasses for each category, since the required values for each category are different
     private String name;
 
-    private int minAPR;                                 // Should probably choose another name to avoid ambiguity
-    private int maxAPR;
+    private double minAPR;                                 // Should probably choose another name to avoid ambiguity
+    private double maxAPR;
     private int maxLoanTermMonths;
     private int minCreditScore;
     private int minLoanAmount;
     private int maxLoanAmount;
     private String BBBRating;
 
-    public Lender (String category, String name, int minAPR, int maxAPR, int maxLoanTermMonths, int minCreditScore,
+    public Lender (String category, String name, double minAPR, double maxAPR, int maxLoanTermMonths, int minCreditScore,
                    int minLoanAmount, int maxLoanAmount, String BBBRating) {
         this.category = category;
         this.name = name;
@@ -36,9 +36,9 @@ public class Lender {
 
     public String getName() { return name; }
 
-    public int getMinAPI() { return minAPR; }
+    public double getMinAPI() { return minAPR; }
 
-    public int getMaxAPI() { return maxAPR; }
+    public double getMaxAPI() { return maxAPR; }
 
     public int getMinCreditScore() { return minCreditScore; }
 
@@ -51,7 +51,7 @@ public class Lender {
     public String getBBBRating() { return BBBRating; }
 
     public boolean matchLogin (String category, String name) {
-        return this.category.equals(category) && this.name.equals(name);
+        return this.category.equalsIgnoreCase(category) && this.name.equalsIgnoreCase(name);
     }
 
 }

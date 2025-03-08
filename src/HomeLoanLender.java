@@ -3,7 +3,7 @@ public class HomeLoanLender extends Lender {
     private int minDownPayment;
 
     public HomeLoanLender(String[] data) {
-        super("Home", data[1], Integer.parseInt(data[5]), data[10]);
+        super("home", data[1], Integer.parseInt(data[5]), data[10]);
         numStateOfOperation = Integer.parseInt(data[11]);
         minDownPayment = Integer.parseInt(data[12]);
     }

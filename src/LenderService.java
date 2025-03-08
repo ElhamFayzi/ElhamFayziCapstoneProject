@@ -22,19 +22,19 @@ public class LenderService {                                           // SELF N
 
         while (reader.hasNextLine()) {
             String[] line = reader.nextLine().split(",");
-            String category = line[0];
+            String category = line[0].toLowerCase().trim();
 
             try {
                 switch (category) {
-                    case "Personal":
+                    case "personal":
                         PersonalLoanLender p1 = new PersonalLoanLender(line);
                         listOfLenders.add(p1);
                         break;
-                    case "Home":
+                    case "home":
                         HomeLoanLender h1 = new HomeLoanLender(line);
                         listOfLenders.add(h1);
                         break;
-                    case "Business":
+                    case "business":
                         BusinessLoanLender bl = new BusinessLoanLender(line);
                         listOfLenders.add(bl);
                         break;
@@ -92,9 +92,9 @@ public class LenderService {                                           // SELF N
         // ------------------------------------------------
         System.out.println("------------------------------------");
         System.out.print("Enter the Category Name: ");
-        String category = scnr.nextLine();
+        String category = scnr.nextLine().toLowerCase();
         System.out.print("Enter the Name of the Lender: ");
-        String lenderName = scnr.nextLine();
+        String lenderName = scnr.nextLine().toLowerCase();
 
         Lender lender = searchLender(lenderName);
 
@@ -102,7 +102,6 @@ public class LenderService {                                           // SELF N
             System.out.println("Lender does not exist");
         }
         else {
-            System.out.println("You have successfully logged in!");
             return true;
         }
 
@@ -130,7 +129,7 @@ public class LenderService {                                           // SELF N
 
     public static Lender searchLender (String lenderName) {
         for (Lender lender : listOfLenders) {
-            if (lender.getName().equals(lenderName)) {
+            if (lender.getName().equalsIgnoreCase(lenderName)) {
                 return lender;
             }
         }

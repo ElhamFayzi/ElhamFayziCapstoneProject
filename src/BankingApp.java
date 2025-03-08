@@ -89,10 +89,10 @@ public class BankingApp {
                 case 1:
                     boolean registered = false;
                     try {
-                        LenderService.registerNewLender(scnr);
+                        registered = LenderService.registerNewLender(scnr);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
-//                        System.exit(1);
+                        System.exit(1);
                     }
 
                     if (registered) {
