@@ -50,7 +50,9 @@ public class Lender {
 
     public String getBBBRating() { return BBBRating; }
 
-
+    public boolean matchLogin (String category, String name) {
+        return this.category.equals(category) && this.name.equals(name);
+    }
 
 }
 

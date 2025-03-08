@@ -55,9 +55,9 @@ public class UserService {
         System.out.print("Enter your username: ");
         String username = scnr.nextLine();
         System.out.print("Enter your password: ");
-
         String password = scnr.nextLine();
-        User user = UserService.searchUser(username);
+
+        User user = searchUser(username);
 
         if (user == null) {
             System.out.println("Wrong username or password!");
@@ -73,7 +73,7 @@ public class UserService {
         return handleLogin(scnr);
     }
 
-    public static boolean writeUserToFile (String[] responses) {
+    private static boolean writeUserToFile (String[] responses) {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream("PersonalBankingUsers.txt", true);

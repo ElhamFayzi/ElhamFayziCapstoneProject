@@ -10,6 +10,14 @@ public class BankingApp {
         System.out.println("------------------------------------");
     }
 
+    public static void printBusinessBanking () {
+        System.out.println("===========Lender's Interface===========");
+        System.out.println("1. Register a new Lender");
+        System.out.println("2. Login existing Lender");
+        System.out.println("3. Exit");
+        System.out.println("-----------------------------------");
+    }
+
     public static boolean openPersonalBanking(Scanner scnr) {
         boolean isRunning = true;
 
@@ -62,8 +70,60 @@ public class BankingApp {
     }
 
     public static boolean openBusinessBanking (Scanner scnr) {
-        System.out.println("TO BE IMPLEMENTED SOON");
+        boolean isRunning = true;
 
+        while (isRunning) {
+            printBusinessBanking();
+            int choice;
+
+            try {
+                choice = scnr.nextInt();
+                scnr.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Input. Please try again.\n");
+                scnr.nextLine();
+                continue;
+            }
+
+            switch (choice){
+                case 1:
+                    boolean registered = false;
+                    try {
+                        LenderService.registerNewLender(scnr);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+//                        System.exit(1);
+                    }
+
+                    if (registered) {
+                        System.out.println("New Lender has been successfully registered!");
+                    }
+                    else {
+                        System.out.println("The program could not register you at this time. Please try again later!");
+                    }
+                    break;
+
+                case 2:
+                    try {
+                        if (LenderService.handleLogin(scnr)) {
+                            System.out.println("You have successfully logged in!");
+                            break;
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting ...");
+                    isRunning = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid Input. Please try again.");
+                    break;
+            }
+        }
         return true;
     }
 
