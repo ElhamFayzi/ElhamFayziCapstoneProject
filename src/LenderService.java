@@ -46,6 +46,7 @@ public class LenderService {                                           // SELF N
             }
         }
         reader.close();
+        SearchAndSort.recursiveBubbleSort(listOfLenders, listOfLenders.size());                 // Keeps the list of the lenders sorted for binary search later
 
         return !listOfLenders.isEmpty();
     }
@@ -128,12 +129,7 @@ public class LenderService {                                           // SELF N
     }
 
     public static Lender searchLender (String lenderName) {
-        for (Lender lender : listOfLenders) {
-            if (lender.getName().equalsIgnoreCase(lenderName)) {
-                return lender;
-            }
-        }
-
-        return null;
+        int ind = SearchAndSort.recursiveBinarySearch(listOfLenders, lenderName, 0, listOfLenders.size() - 1);
+        return (ind != -1) ? listOfLenders.get(ind) : null;
     }
 }
