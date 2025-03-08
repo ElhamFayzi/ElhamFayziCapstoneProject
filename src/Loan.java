@@ -1,3 +1,3 @@
 public class Loan {
-    // To be completed in the next milestone
+    // To be completed in the next milestones
 }
