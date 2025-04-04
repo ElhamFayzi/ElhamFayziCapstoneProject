@@ -30,4 +30,22 @@ public class Loan {
     }
 
     public String getFullName() { return this.fullName; }
+
+    public String getBusinessName() { return this.businessName; }
+
+    public String getBusinessType() { return this.businessType; }
+
+    public double getLoanAmount() { return this.loanAmount; }
+
+    public String getLoanPurpose() { return this.loanPurpose; }
+
+    public LocalDate getCurrentDate() { return this.currentDate; }
+
+    public int getYearsInOperation() { return this.yearsInOperation; }
+
+    public double getAnnualRevenue() { return this.annualRevenue; }
+
+    public double getNetProfit() { return this.netProfit; }
+
+    public double getAvgMonthlySales() { return this.avgMonthlySales; }
 }

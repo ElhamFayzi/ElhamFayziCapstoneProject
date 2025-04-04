@@ -108,9 +108,12 @@ public class BankingApp {
 
                 case 2:
                     try {
-                        if (LenderService.handleLogin(scnr)) {
+                        Lender lender = LenderService.handleLogin(scnr);
+                        if (lender != null) {
                             System.out.println("You have successfully logged in!");
-                            /// DO SOMETHING HERE
+
+
+                            LenderService.postLogin(scnr);
                             break;
                         }
                     } catch (Exception e) {

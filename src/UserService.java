@@ -10,8 +10,6 @@ public class UserService {
     private static ArrayList<User> listOfUsers = new ArrayList<User>();
     private static boolean usersLoaded = false;
 
-    private static LinkedList loanRequests = null;
-
     public static boolean loadUsers() {
         FileInputStream fis = null;
         try {
@@ -221,12 +219,6 @@ public class UserService {
             writer.flush();
 
             Loan req = new Loan(user.getName(), businessName, businessType, loanAmount, loanPurpose, currentDate, yearsInOperation, annualRevenue, netProfit, avgMonthlySales);
-            if (loanRequests == null) {
-                loanRequests = new LinkedList(req);
-            }
-            else {
-                loanRequests.append(req);
-            }
 
             System.out.println("Loan application submitted successfully");
         } catch (FileNotFoundException e) {

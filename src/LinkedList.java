@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 
 public class LinkedList {
-    private Node head;
+    public Node head;
 
     // Constructor to initialize the linked list with a head node
     public LinkedList(Loan obj) {
@@ -104,24 +104,8 @@ public class LinkedList {
         }
     }
 
-    //---------------------------------------------------------------------------
-    //The class Node is defined as private within this class for better encapsulation
-    //---------------------------------------------------------------------------
-    private class Node {
-        Loan obj;
-        Node next;
-
-        public Node(Loan obj) {
-            this.obj = obj;
-        }
-
-        public Node(Loan obj, Node next) {
-            this.obj = obj;
-            this.next = next;
-        }
-
-        public void setNext (Node n) {
-            this.next = n;
-        }
+    public boolean isEmpty() {
+        return (head == null);
     }
+
 }
