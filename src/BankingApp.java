@@ -47,8 +47,11 @@ public class BankingApp {
 
                 case 2:                                                  // BEGIN CHECKING FORM THIS CASE ONWARD --> Checkpoint
                     try {
-                        if (UserService.handleLogin(scnr)) {
+                        User user = UserService.handleLogin(scnr);
+                        if (user != null) {
                             System.out.println("You have successfully logged in!");
+
+                            UserService.postLogin(scnr, user);
                             break;
                         }
                     } catch (Exception e) {
@@ -107,6 +110,7 @@ public class BankingApp {
                     try {
                         if (LenderService.handleLogin(scnr)) {
                             System.out.println("You have successfully logged in!");
+                            /// DO SOMETHING HERE
                             break;
                         }
                     } catch (Exception e) {

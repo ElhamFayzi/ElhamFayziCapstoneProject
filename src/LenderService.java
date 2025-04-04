@@ -132,4 +132,5 @@ public class LenderService {                                           // SELF N
         int ind = SearchAndSort.recursiveBinarySearch(listOfLenders, lenderName, 0, listOfLenders.size() - 1);
         return (ind != -1) ? listOfLenders.get(ind) : null;
     }
+
 }

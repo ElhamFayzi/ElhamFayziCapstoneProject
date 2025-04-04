@@ -25,6 +25,7 @@ public class User {
     private String password;
 
     //User's Financial Information
+    private double balance;
     private int creditScore;
     private int annualIncome;
     private Loan userLoan;
@@ -48,7 +49,9 @@ public class User {
         this.username = data[10];
         this.password = data[11];
 
+        this.balance = 0;                       // Change this later
         this.userID = generateUserID();
+
     }
 
     public void setPhysicalAddress (String physicalAddress) {
@@ -103,6 +106,23 @@ public class User {
         return username;
     }
 
+    public double getBalance() { return this.balance; }
+
+    public String getName() { return this.firstName + this.lastName; }
+
+    public void deposit(double amount) {
+        this.balance += amount;
+    }
+
+    public void withdraw(double amount) throws Exception {
+        if (this.balance - amount >= 0) {
+            this.balance -= amount;
+        }
+        else {
+            throw new Exception("Not enough balance");
+        }
+    }
+
     public boolean matchLogin (String username, String password) {
         return username.equals(this.username) && password.equals(this.password);
     }
@@ -110,5 +130,6 @@ public class User {
     private String generateUserID () {
         return UUID.randomUUID().toString();
     }
+
 
 }
