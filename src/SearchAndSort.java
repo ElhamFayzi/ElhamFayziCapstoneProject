@@ -4,7 +4,7 @@ public class SearchAndSort {
     public static void recursiveBubbleSort(ArrayList<Lender> lenders, int n) {
         if (n == 1) return;
 
-        ComparatorsUtil comparator = new ComparatorsUtil();
+        LenderNameComparator comparator = new LenderNameComparator();
         boolean swapped = false;
 
         for (int i = 0 ; i < n - 1; i++) {
@@ -45,7 +45,7 @@ public class SearchAndSort {
         mergeSortedLists(a, tmp, left, middle, right);
     }
     public static void mergeSortedLists(ArrayList<Lender> a, ArrayList<Lender> tmp, int left, int middle, int right){
-        ComparatorsUtil comparator = new ComparatorsUtil();
+        LenderNameComparator comparator = new LenderNameComparator();
         tmp.clear();
 
         int i = left;

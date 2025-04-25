@@ -4,6 +4,7 @@ public class Node {
 
     public Node(Loan obj) {
         this.obj = obj;
+        this.next = null;
     }
 
     public Node(Loan obj, Node next) {

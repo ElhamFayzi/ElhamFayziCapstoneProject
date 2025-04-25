@@ -32,7 +32,6 @@ public class User {
     private int creditScore;
     private int annualIncome;
     private Loan userLoan;
-    private BankAccount account;
 
     //------------------------
     // CAN ADD SOME MORE INFORMATION REGARDING USER'S PREFERENCE FOR RECEIVING NOTIFICATIONS, i.e. email, sms, etc.

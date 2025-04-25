@@ -50,7 +50,7 @@ public class LinkedList {
 
     // Sorts the linked list using a comparator for sorting
     public static void bubbleSort(LinkedList list, int size) {
-        LenderNameComparator comparator = new LenderNameComparator();
+        LoanReqNameComparator comparator = new LoanReqNameComparator();
         boolean haveSwapped;
 
         do {

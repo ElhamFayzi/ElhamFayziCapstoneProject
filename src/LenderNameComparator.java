@@ -1,8 +1,7 @@
-import java.util.Comparator;
-
-public class LenderNameComparator implements Comparator<Loan> {
+// LenderNameComparator.java
+public class LenderNameComparator implements NameComparator<Lender> {
     @Override
-    public int compare(Loan l1, Loan l2) {
-        return l1.getFullName().compareTo(l2.getFullName());
+    public int compare(Lender l1, Lender l2) {
+        return l1.getName().compareToIgnoreCase(l2.getName());
     }
 }
