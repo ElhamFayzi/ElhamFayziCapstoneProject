@@ -1,6 +1,5 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
@@ -29,13 +28,8 @@ public class User {
     //User's Financial Information
     private double balance;
     private double loanBalance;                     // **** ADD THIS SOMEWHERE TO THE CONSTRUCTOR, TOO
-    private int creditScore;
-    private int annualIncome;
     private Loan userLoan;
 
-    //------------------------
-    // CAN ADD SOME MORE INFORMATION REGARDING USER'S PREFERENCE FOR RECEIVING NOTIFICATIONS, i.e. email, sms, etc.
-    //------------------------
 
     public User (String[] data) {
         this.firstName = data[0];

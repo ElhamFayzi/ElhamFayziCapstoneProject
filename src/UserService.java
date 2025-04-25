@@ -260,7 +260,7 @@ public class UserService {
             writer.flush();
 
             // **** To maintain a record of the loan applications of a business in individual files
-            fos = new FileOutputStream("../Users/" + user.getName() + ".csv", true);            // FIXME!!! Might want to use something else instead of name, since multiple users might have the same name
+            fos = new FileOutputStream("../Users/" + user.getName() + ".csv", true);
             writer = new PrintWriter(fos);
 
             writer.println(user.getName() + "," +

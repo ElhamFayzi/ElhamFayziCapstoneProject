@@ -114,7 +114,8 @@ public class Loan {
                     annualRevenue + "," +
                     netProfit + "," +
                     avgMonthlySales + "," +
-                    this.status;
+                    this.status + "," +
+                    this.applicationID;
         return output;
 
     }

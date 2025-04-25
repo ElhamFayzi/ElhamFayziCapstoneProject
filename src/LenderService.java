@@ -242,37 +242,81 @@ public class LenderService {                                           // SELF N
                     break;
 
                 case 2:
-                    System.out.print("Enter application #: ");
-                    int target = scnr.nextInt();
+                    System.out.println("Approve by:");
+                    System.out.println(" 1) Application number in the list");
+                    System.out.println(" 2) Application ID (UUID)");
+                    System.out.print("Choose option (1 or 2): ");
+                    int mode = scnr.nextInt();
                     scnr.nextLine();
 
-                    // 1) Quick sanity check
-                    if (approvalQueue == null || approvalQueue.isEmpty()) {
-                        System.out.println("Please view the applications first (option 1).");
-                        break;
+                    Loan approved = null;
+                    if (mode == 1) {
+                        // by position in the last–printed approvalQueue
+                        if (approvalQueue == null || approvalQueue.isEmpty()) {
+                            System.out.println("Please view the applications first (option 1 or 3).");
+                            break;
+                        }
+                        System.out.print("Enter application #: ");
+                        int target = scnr.nextInt();
+                        scnr.nextLine();
+                        if (target < 1 || target > approvalQueue.getSize()) {
+                            System.out.println("Invalid application number.");
+                            break;
+                        }
+                        approved = approveLoan(target);
                     }
-                    if (target < 1 || target > approvalQueue.getSize()) {
-                        System.out.println("Invalid application number.");
+                    else if (mode == 2) {
+                        // by applicationID
+                        System.out.print("Enter Application ID: ");
+                        String targetId = scnr.nextLine().trim();
+                        approved = approveLoanByID(targetId);
+                    }
+                    else {
+                        System.out.println("Invalid choice.");
                         break;
                     }
 
-                    // 2) Delegate removal + file updates to your existing method:
-                    //    approveLoan(target) will remove from loanRequests and rewrite loanApplications.csv
-                    Loan approved = approveLoan(target);
                     if (approved == null) {
-                        System.out.println("Application #" + target + " could not be approved.");
+                        System.out.println("No such application.");
                     } else {
-                        // 3) Update the user’s record (adds the loan amount to their balance)
                         updateUserRecord(approved);
-                        System.out.println("Application #" + target + " approved.");
+                        System.out.println("Approved: " + approved.getApplicationID());
                     }
 
-                    // 4) Clear out the temp queue so next “view” rebuilds it fresh
+                    // clear temp queue so next view rebuilds it
                     approvalQueue = new Queue<>();
                     break;
 
                 case 3:
-                    //FIXME!!! COMPLETE THIS
+                    // Ask which category the lender wants to see
+                    System.out.print("Enter a business category to filter by: ");
+                    String filter = scnr.nextLine().trim().toLowerCase();
+
+                    if (loanRequests == null || loanRequests.isEmpty()) {
+                        System.out.println("There are no loan applications at the moment.");
+                        break;
+                    }
+
+                    System.out.println("---- Applications in category: " + filter + " ----");
+                    // Reset the temp‐queue to only hold the filtered apps
+                    approvalQueue = new Queue<>();
+
+                    int idx = 1;
+                    Node curr3 = loanRequests.head;
+                    while (curr3 != null) {
+                        Loan loan3 = curr3.obj;
+                        if (loan3.getBusinessType().equalsIgnoreCase(filter)) {
+                            System.out.println("Application #" + idx++);
+                            System.out.println(loan3.toFormattedString());
+                            approvalQueue.enqueue(loan3);
+                        }
+                        curr3 = curr3.next;
+                    }
+
+                    if (idx == 1) {
+                        System.out.println("No applications found for category \"" + filter + "\".");
+                    }
+                    // Now approvalQueue holds only the apps you just printed
                     break;
 
                 case 4:
@@ -307,24 +351,6 @@ public class LenderService {                                           // SELF N
 
         return l;
     }
-
-//    public static boolean rejectLoan(int appNum) {
-//        if (appNum < 0 || appNum >= listOfLenders.size()) { return false; }
-//
-//        Node curr = loanRequests.head;
-//        int counter = 1;
-//        while (curr.next != null && counter <= appNum) {
-//            curr = curr.next;
-//        }
-//
-//        Loan l = curr.obj;
-//        l.reject();
-//
-//        loanRequests.remove(curr);
-//        updateFile();                                 //FIXME!!! Change the method signature and whether to write "Approved" or "Rejected" in the file if u wanted to use this commented snippet
-//
-//        return true;
-//    }
 
     public static void updateFile(String fullName, String applicationID) {
         FileOutputStream fos = null;
@@ -406,5 +432,26 @@ public class LenderService {                                           // SELF N
         writer.close();
 
         return true;
+    }
+
+    public static Loan approveLoanByID(String applicationID) {
+        if (loanRequests == null || loanRequests.isEmpty()) return null;
+
+        Node curr = loanRequests.head, prev = null;
+        while (curr != null && !curr.obj.getApplicationID().equals(applicationID)) {
+            prev = curr;
+            curr = curr.next;
+        }
+        if (curr == null) return null;
+
+        curr.obj.approve();
+        // unlink curr
+        if (prev == null) {
+            loanRequests.head = curr.next;
+        } else {
+            prev.next = curr.next;
+        }
+        updateFile(curr.obj.getFullName(), applicationID);
+        return curr.obj;
     }
 }
