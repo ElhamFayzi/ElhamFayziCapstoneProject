@@ -6,14 +6,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LenderService {                                           // SELF NOTE: Might want to create an interface which UserService and LenderService can implement
+public class S_LenderService {                                           // SELF NOTE: Might want to create an interface which UserService and LenderService can implement
     private static ArrayList<Lender> listOfLenders = new ArrayList<>();
     private static boolean lendersLoaded = false;
 
-    private static LinkedList loanRequests = null;                                  // **** CAN MAKE THIS A QUEUE
+    private static U_LinkedList loanRequests = null;                                  // **** CAN MAKE THIS A QUEUE
     private static boolean loanRequestsLoaded = false;
 
-    private static Queue<Loan> approvalQueue = new Queue<>();
+    private static U_Queue<Loan> approvalQueue = new U_Queue<>();
 
 
     public static boolean loadLenders() {
@@ -54,7 +54,7 @@ public class LenderService {                                           // SELF N
             }
         }
         reader.close();
-        SearchAndSort.mergeSort(listOfLenders, new ArrayList<Lender>(), 0, listOfLenders.size() - 1);                 // Keeps the list of the lenders sorted for binary search later
+        U_SearchAndSort.mergeSort(listOfLenders, new ArrayList<Lender>(), 0, listOfLenders.size() - 1);                 // Keeps the list of the lenders sorted for binary search later
 
         return !listOfLenders.isEmpty();
     }
@@ -137,7 +137,7 @@ public class LenderService {                                           // SELF N
     }
 
     public static Lender searchLender (String lenderName) {
-        int ind = SearchAndSort.recursiveBinarySearch(listOfLenders, lenderName, 0, listOfLenders.size() - 1);
+        int ind = U_SearchAndSort.recursiveBinarySearch(listOfLenders, lenderName, 0, listOfLenders.size() - 1);
         return (ind != -1) ? listOfLenders.get(ind) : null;
     }
 
@@ -176,7 +176,7 @@ public class LenderService {                                           // SELF N
                 );
 
                 if (loanRequests == null) {
-                    loanRequests = new LinkedList(loan);
+                    loanRequests = new U_LinkedList(loan);
                 }
                 else {
                     loanRequests.append(loan);
@@ -226,10 +226,10 @@ public class LenderService {                                           // SELF N
                         System.out.println("There are no loan applications at the moment.");
                     } else {
                         System.out.println("------ Loan Applications ------");
-                        approvalQueue = new Queue<>();
+                        approvalQueue = new U_Queue<>();
 
                         int index = 1;
-                        Node curr = loanRequests.head;
+                        U_LinkedListNode curr = loanRequests.head;
 
                         while (curr != null) {
                             Loan loan = curr.obj;
@@ -284,7 +284,7 @@ public class LenderService {                                           // SELF N
                     }
 
                     // clear temp queue so next view rebuilds it
-                    approvalQueue = new Queue<>();
+                    approvalQueue = new U_Queue<>();
                     break;
 
                 case 3:
@@ -299,10 +299,10 @@ public class LenderService {                                           // SELF N
 
                     System.out.println("---- Applications in category: " + filter + " ----");
                     // Reset the temp‐queue to only hold the filtered apps
-                    approvalQueue = new Queue<>();
+                    approvalQueue = new U_Queue<>();
 
                     int idx = 1;
-                    Node curr3 = loanRequests.head;
+                    U_LinkedListNode curr3 = loanRequests.head;
                     while (curr3 != null) {
                         Loan loan3 = curr3.obj;
                         if (loan3.getBusinessType().equalsIgnoreCase(filter)) {
@@ -334,7 +334,7 @@ public class LenderService {                                           // SELF N
     public static Loan approveLoan(int appNum) {
         if (appNum < 0 || appNum >= listOfLenders.size()) { return null; }
 
-        Node curr = loanRequests.head;
+        U_LinkedListNode curr = loanRequests.head;
         int counter = 1;
         while (curr.next != null && counter <= appNum) {
             curr = curr.next;
@@ -437,7 +437,7 @@ public class LenderService {                                           // SELF N
     public static Loan approveLoanByID(String applicationID) {
         if (loanRequests == null || loanRequests.isEmpty()) return null;
 
-        Node curr = loanRequests.head, prev = null;
+        U_LinkedListNode curr = loanRequests.head, prev = null;
         while (curr != null && !curr.obj.getApplicationID().equals(applicationID)) {
             prev = curr;
             curr = curr.next;

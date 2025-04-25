@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-public class SearchAndSort {
+public class U_SearchAndSort {
     public static void recursiveBubbleSort(ArrayList<Lender> lenders, int n) {
         if (n == 1) return;
 
-        LenderNameComparator comparator = new LenderNameComparator();
+        C_LenderNameComparator comparator = new C_LenderNameComparator();
         boolean swapped = false;
 
         for (int i = 0 ; i < n - 1; i++) {
@@ -45,7 +45,7 @@ public class SearchAndSort {
         mergeSortedLists(a, tmp, left, middle, right);
     }
     public static void mergeSortedLists(ArrayList<Lender> a, ArrayList<Lender> tmp, int left, int middle, int right){
-        LenderNameComparator comparator = new LenderNameComparator();
+        C_LenderNameComparator comparator = new C_LenderNameComparator();
         tmp.clear();
 
         int i = left;

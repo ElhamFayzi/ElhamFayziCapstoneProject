@@ -1,13 +1,13 @@
-public class QueueNode<T> {
+public class U_QueueNode<T> {
     private T data;
-    private QueueNode<T> next;
+    private U_QueueNode<T> next;
 
-    public QueueNode(T data) {
+    public U_QueueNode(T data) {
         this.data = data;
         this.next = null;
     }
 
-    public QueueNode(T data, QueueNode<T> next) {
+    public U_QueueNode(T data, U_QueueNode<T> next) {
         this.data = data;
         this.next = next;
     }
@@ -16,11 +16,11 @@ public class QueueNode<T> {
         return data;
     }
 
-    public QueueNode<T> getNext() {
+    public U_QueueNode<T> getNext() {
         return next;
     }
 
-    public void setNext(QueueNode<T> next) {
+    public void setNext(U_QueueNode<T> next) {
         this.next = next;
     }
 }

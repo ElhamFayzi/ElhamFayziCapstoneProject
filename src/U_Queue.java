@@ -1,16 +1,16 @@
-public class Queue<T> {
-    private QueueNode<T> head;
-    private QueueNode<T> tail;
+public class U_Queue<T> {
+    private U_QueueNode<T> head;
+    private U_QueueNode<T> tail;
     private int size;
 
-    public Queue() {
+    public U_Queue() {
         head = null;
         tail = null;
         size = 0;
     }
 
     public void enqueue(T item) {
-        QueueNode<T> newNode = new QueueNode<>(item);
+        U_QueueNode<T> newNode = new U_QueueNode<>(item);
         if (tail != null) {
             tail.setNext(newNode);
         }

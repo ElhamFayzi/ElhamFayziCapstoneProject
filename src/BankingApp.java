@@ -36,7 +36,7 @@ public class BankingApp {
 
             switch (choice){
                 case 1:
-                    boolean registered = UserService.registerNewUser(scnr);
+                    boolean registered = S_UserService.registerNewUser(scnr);
                     if (registered) {
                         System.out.println("New User has been successfully registered!");
                     }
@@ -47,11 +47,11 @@ public class BankingApp {
 
                 case 2:
                     try {
-                        User user = UserService.handleLogin(scnr);
+                        User user = S_UserService.handleLogin(scnr);
                         if (user != null) {
                             System.out.println("You have successfully logged in!");
 
-                            UserService.postLogin(scnr, user);
+                            S_UserService.postLogin(scnr, user);
                             break;
                         }
                     } catch (Exception e) {
@@ -92,7 +92,7 @@ public class BankingApp {
                 case 1:
                     boolean registered = false;
                     try {
-                        registered = LenderService.registerNewLender(scnr);
+                        registered = S_LenderService.registerNewLender(scnr);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         System.exit(1);
@@ -108,12 +108,12 @@ public class BankingApp {
 
                 case 2:
                     try {
-                        Lender lender = LenderService.handleLogin(scnr);
+                        Lender lender = S_LenderService.handleLogin(scnr);
                         if (lender != null) {
                             System.out.println("You have successfully logged in!");
 
 
-                            LenderService.postLogin(scnr);
+                            S_LenderService.postLogin(scnr);
                             break;
                         }
                     } catch (Exception e) {

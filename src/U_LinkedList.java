@@ -1,31 +1,31 @@
 import java.io.PrintWriter;
 
-public class LinkedList {
-    public Node head;
+public class U_LinkedList {
+    public U_LinkedListNode head;
 
     // Constructor to initialize the linked list with a head node
-    public LinkedList(Loan obj) {
-        head = new Node(obj, null);
+    public U_LinkedList(Loan obj) {
+        head = new U_LinkedListNode(obj, null);
     }
 
     // Appends a new node with the given SportsCar object to the end of the linked list
     public void append(Loan obj) {
-        Node curr = head;
+        U_LinkedListNode curr = head;
 
         while (curr.next != null) {
             curr = curr.next;
         }
 
-        curr.next = new Node(obj, null);
+        curr.next = new U_LinkedListNode(obj, null);
     }
 
     // Inserts a new node after the given SportsCar object if it exists in the list
     public boolean insertAfter(Loan obj, Loan objToInsert) {                  // WARNING!!! THIS METHOD MAY NEED SOME IMPROVEMENTS + MIGHT NEED TO MODIFY THE VARIABLE NAMING
-        Node curr = head;
+        U_LinkedListNode curr = head;
         while (curr != null) {
             if (curr.obj == obj) {                                 // Check if the object in the current node matches the given object (same reference)
-                Node temp = curr.next;
-                curr.next = new Node(objToInsert, temp);
+                U_LinkedListNode temp = curr.next;
+                curr.next = new U_LinkedListNode(objToInsert, temp);
 
                 return true;
             }
@@ -38,7 +38,7 @@ public class LinkedList {
     // Gets the size of the linked list by counting nodes
     public int getSize() {
         int i = 0;
-        Node curr = this.head;
+        U_LinkedListNode curr = this.head;
 
         while (curr != null) {
             i++;
@@ -49,13 +49,13 @@ public class LinkedList {
     }
 
     // Sorts the linked list using a comparator for sorting
-    public static void bubbleSort(LinkedList list, int size) {
-        LoanReqNameComparator comparator = new LoanReqNameComparator();
+    public static void bubbleSort(U_LinkedList list, int size) {
+        C_LoanReqNameComparator comparator = new C_LoanReqNameComparator();
         boolean haveSwapped;
 
         do {
             haveSwapped = false;
-            Node curr = list.head;
+            U_LinkedListNode curr = list.head;
 
             for (int i = 0; i < size - 1; i++) {
                 if (comparator.compare(curr.obj, curr.next.obj) > 0) {
@@ -72,7 +72,7 @@ public class LinkedList {
     }
 
     // Swaps two adjacent nodes in the list
-    public static void swap (LinkedList list, Node n1, Node n2) {
+    public static void swap (U_LinkedList list, U_LinkedListNode n1, U_LinkedListNode n2) {
         // If n1 is the head of the list
         if (n1 == list.head) {
             list.head = n2;
@@ -81,8 +81,8 @@ public class LinkedList {
             return;
         }
 
-        Node prev = null;
-        Node curr = list.head;
+        U_LinkedListNode prev = null;
+        U_LinkedListNode curr = list.head;
 
         // Find the node before n1
         while (curr != null && curr != n1) {
@@ -96,7 +96,7 @@ public class LinkedList {
     }
 
     public void writeToPrintWriter (PrintWriter writer) {
-        Node curr = this.head;
+        U_LinkedListNode curr = this.head;
         while (curr != null) {
             writer.println(curr.obj.toString());
             curr = curr.next;
@@ -107,7 +107,7 @@ public class LinkedList {
         return (head == null);
     }
 
-    public void remove(Node n) {
+    public void remove(U_LinkedListNode n) {
     if (n == null || head == null) return;
 
     if (head == n) {
@@ -115,7 +115,7 @@ public class LinkedList {
         return;
     }
 
-    Node current = head;
+    U_LinkedListNode current = head;
     while (current.next != null && current.next != n) {
         current = current.next;
     }

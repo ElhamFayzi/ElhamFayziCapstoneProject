@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
 
-public class UserService {
+public class S_UserService {
     private static ArrayList<User> listOfUsers = new ArrayList<User>();
     private static boolean usersLoaded = false;
 
