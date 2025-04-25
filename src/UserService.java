@@ -1,7 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -10,10 +7,13 @@ public class UserService {
     private static ArrayList<User> listOfUsers = new ArrayList<User>();
     private static boolean usersLoaded = false;
 
+    private static ArrayList<Loan> requestedLoans = new ArrayList<Loan>();                      // *** MIGHT WANT TO USE A STACK FOR THIS
+    private static boolean loanRequestsLoaded = false;
+
     public static boolean loadUsers() {
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("PersonalBankingUsers.txt");
+            fis = new FileInputStream("../Directories/PersonalBankingUsers.txt");
         } catch (FileNotFoundException e) {
             return false;
         }
@@ -30,11 +30,16 @@ public class UserService {
     }
 
     public static boolean registerNewUser (Scanner scnr) {               // Can move this method to User class for better encapsulation
-        String[] fields = {"First Name", "Last Name", "Date of Birth (MM/DD/YYYY)", "Gender", "Physical Address", "Mailing Address", "SSN", "Phone Number", "Email Address", "Occupation", "Username", "Password"};
+        String[] fields = {"First Name", "Last Name", "Date of Birth (MM/DD/YYYY)", "Gender", "Physical Address", "Mailing Address", "SSN", "Phone Number", "Email Address", "Occupation", "Username", "Password", "Initial Deposit"};
         String[] responses = new String[fields.length];
 
         for (int i = 0; i < fields.length; i++) {
-            System.out.print(fields[i] + ": ");
+            if (i == fields.length - 1) {
+                System.out.print(fields[i] + ": $");
+            }
+            else {
+                System.out.print(fields[i] + ": ");
+            }
             responses[i] = scnr.nextLine();                             // FIX THIS: Add an algorithm to check if the username has already been taken
         }
 
@@ -47,7 +52,7 @@ public class UserService {
     public static User handleLogin (Scanner scnr) throws Exception{
         if (!usersLoaded) {                                 // Load the users if they have not yet been loaded
             usersLoaded = loadUsers();
-            if (usersLoaded == false) {                     // If the program could not load the list of existing users, it would throw an exception to the method call
+            if (!usersLoaded) {                     // If the program could not load the list of existing users, it would throw an exception to the method call
                 throw new Exception ("The program cannot access the list of existing users at this time. Please try again!");
             }
         }
@@ -76,7 +81,7 @@ public class UserService {
     private static boolean writeUserToFile (String[] responses) {
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream("PersonalBankingUsers.txt", true);
+            fos = new FileOutputStream("../Directories/PersonalBankingUsers.txt", true);
         } catch (FileNotFoundException e) {
             System.out.println("The program cannot register new users at this time. Please try again later!");
             return false;
@@ -92,7 +97,7 @@ public class UserService {
         return true;
     }
 
-    public static User searchUser (String username) {
+    public static User searchUser (String username) {                           // **** MOVE THIS TO SearchAndSort Class
         for (User user: listOfUsers) {
             if (user.getUsername().equals(username)) {
                 return user;
@@ -111,7 +116,8 @@ public class UserService {
                     "2. Deposit Funds\n" +
                     "3. Withdraw Funds\n" +
                     "4. Fill a loan application for your business\n" +
-                    "5. Logout\n" +
+                    "5. Show previous loan applications\n" +
+                    "6. Logout\n" +
                     "-----------------------------------------");
 
             int choice = scnr.nextInt();
@@ -123,19 +129,42 @@ public class UserService {
                     break;
 
                 case 2:
-                    System.out.print("How much do you want to deposit? $");
-                    double amountToDeposit = scnr.nextDouble();
-                    user.deposit(amountToDeposit);
+
+                    double amountToDeposit = 0;
+                    boolean invalidNumber = false;
+                    do {
+                        try {
+                            System.out.print("How much do you want to deposit? $");
+
+                            invalidNumber = false;
+                            amountToDeposit = scnr.nextDouble();
+                            user.deposit(amountToDeposit);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            invalidNumber = true;
+                        }
+                    } while (invalidNumber);
+
+                    updateRecord();
                     break;
 
                 case 3:
-                    System.out.print("How much do you want to withdraw? $");
-                    double amountToWithdraw = scnr.nextDouble();
-                    try {
-                        user.withdraw(amountToWithdraw);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    double amountToWithdraw = 0;
+                    boolean invalidNum = false;
+                    do {
+                        try {
+                            System.out.print("How much do you want to withdraw? $");
+
+                            invalidNum = false;
+                            amountToWithdraw = scnr.nextDouble();
+                            user.withdraw(amountToWithdraw);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                            invalidNum = true;
+                        }
+                    } while (invalidNum);
+
+                    updateRecord();
                     break;
 
                 case 4:
@@ -144,6 +173,14 @@ public class UserService {
                     break;
 
                 case 5:
+                    System.out.println("Loading Previous Loan Applications...");
+                    boolean loaded = user.showLoanApplications();
+                    if (!loaded) {
+                        System.out.println("No previous loan applications found!");
+                    }
+                    break;
+
+                case 6:
                     System.out.println("Logging out ...");
                     isRunning = false;
                     break;
@@ -202,10 +239,12 @@ public class UserService {
         }
 
         LocalDate currentDate = LocalDate.now();
+        Loan requestedLoan = new Loan(user.getName(), businessName, businessType, loanAmount, loanPurpose, currentDate, yearsInOperation, annualRevenue, netProfit, avgMonthlySales, "Pending", null);
 
+        FileOutputStream fos = null;
         try {
-            FileOutputStream fis = new FileOutputStream("loan_applications.csv", true);
-            PrintWriter writer = new PrintWriter(fis);
+            fos = new FileOutputStream("../Directories/loanApplications.csv", true);
+            PrintWriter writer = new PrintWriter(fos);
             writer.println(user.getName() + "," +
                     businessName + "," +
                     businessType + "," +
@@ -215,14 +254,48 @@ public class UserService {
                     yearsInOperation + "," +
                     annualRevenue + "," +
                     netProfit + "," +
-                    avgMonthlySales);
+                    avgMonthlySales + "," +
+                    "Pending" + "," +
+                    requestedLoan.getApplicationID());
             writer.flush();
 
-            Loan req = new Loan(user.getName(), businessName, businessType, loanAmount, loanPurpose, currentDate, yearsInOperation, annualRevenue, netProfit, avgMonthlySales);
+            // **** To maintain a record of the loan applications of a business in individual files
+            fos = new FileOutputStream("../Users/" + user.getName() + ".csv", true);            // FIXME!!! Might want to use something else instead of name, since multiple users might have the same name
+            writer = new PrintWriter(fos);
+
+            writer.println(user.getName() + "," +
+                    businessName + "," +
+                    businessType + "," +
+                    loanAmount + "," +
+                    loanPurpose + "," +
+                    currentDate + "," +
+                    yearsInOperation + "," +
+                    annualRevenue + "," +
+                    netProfit + "," +
+                    avgMonthlySales + "," +
+                    "Pending" + "," +
+                    requestedLoan.getApplicationID() + ",");
+            writer.flush();
 
             System.out.println("Loan application submitted successfully");
         } catch (FileNotFoundException e) {
             System.out.println("Failed to submit the application");
         }
+    }
+
+    public static boolean updateRecord() {
+        FileOutputStream fos = null;
+        try{
+            fos = new FileOutputStream("../Directories/PersonalBankingUsers.txt");
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+        PrintWriter writer = new PrintWriter(fos);
+        for (int i = 0; i < listOfUsers.size(); i++) {
+            writer.println(listOfUsers.get(i).toString());
+        }
+        writer.flush();
+        writer.close();
+        return true;
     }
 }

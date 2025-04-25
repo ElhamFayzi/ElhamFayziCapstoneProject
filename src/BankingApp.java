@@ -45,7 +45,7 @@ public class BankingApp {
                     }
                     break;
 
-                case 2:                                                  // BEGIN CHECKING FORM THIS CASE ONWARD --> Checkpoint
+                case 2:
                     try {
                         User user = UserService.handleLogin(scnr);
                         if (user != null) {

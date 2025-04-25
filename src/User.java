@@ -1,10 +1,12 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class User {
-    private ArrayList<BankAccount> activeAccounts = new ArrayList<BankAccount>();
-    private ArrayList<Loan> userOutstandingLoans = new ArrayList<Loan>();
+    private ArrayList<Loan> userLoanApplications = new ArrayList<Loan>();
 
     //User's information
     private final String firstName;
@@ -26,6 +28,7 @@ public class User {
 
     //User's Financial Information
     private double balance;
+    private double loanBalance;                     // **** ADD THIS SOMEWHERE TO THE CONSTRUCTOR, TOO
     private int creditScore;
     private int annualIncome;
     private Loan userLoan;
@@ -49,7 +52,7 @@ public class User {
         this.username = data[10];
         this.password = data[11];
 
-        this.balance = 0;                       // Change this later
+        this.balance = Double.parseDouble(data[12]);                       // Change this later
         this.userID = generateUserID();
 
     }
@@ -108,18 +111,27 @@ public class User {
 
     public double getBalance() { return this.balance; }
 
-    public String getName() { return this.firstName + this.lastName; }
+    public String getName() { return this.firstName + " " + this.lastName; }
 
-    public void deposit(double amount) {
-        this.balance += amount;
+    public String getDateOfBirth() { return this.dateOfBirth; }
+
+    public String getSSN() { return this.SSN; }
+
+    public void deposit(double amount) throws Exception{
+        if (amount <= 0) {
+            throw new Exception ("Invalid Amount");
+        }
+        else {
+            this.balance += amount;
+        }
     }
 
     public void withdraw(double amount) throws Exception {
-        if (this.balance - amount >= 0) {
-            this.balance -= amount;
+        if (amount > this.balance || amount <= 0) {
+            throw new Exception("Invalid Amount");
         }
         else {
-            throw new Exception("Not enough balance");
+            this.balance -= amount;
         }
     }
 
@@ -131,5 +143,34 @@ public class User {
         return UUID.randomUUID().toString();
     }
 
+    public boolean showLoanApplications () {
+        FileInputStream fis = null;
+        Scanner reader = null;
+        try {
+            fis = new FileInputStream("../Users/" + this.getName() + ".csv");
+            reader = new Scanner(fis);
+
+            int i = 0;
+            while (reader.hasNextLine()) {
+                String[] data = reader.nextLine().split(",");
+                Loan l = new Loan (data);
+                System.out.println("-----------------------------------");
+                System.out.println("Application# " + ++i);
+                System.out.println(l.toFormattedString());
+                System.out.println("-----------------------------------");
+            }
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName + ", " + this.lastName + ", " + this.dateOfBirth + ", " + this.gender + ", " + this.physicalAddress + ", "
+                + this.mailingAddress + ", " + this.SSN + ", " + this.phoneNumber + ", " + this.email + ", " + this.occupation + ", "
+                + this.username + ", " + this.password + ", " + this.balance + ", ";
+    }
 
 }

@@ -1,4 +1,0 @@
-Mike, Schwartz, 12/12/2000, M, 123 Street, 123 Street, 123-45-6789, (123) 456 7890, mikeschwartz@gmail.com, none, Mike@123, 1234, 
-Andrew, David, 02/01/1976, Male, 1234 Street1 City State Zipcode, 1234 Street1 City State Zipcode, 123-45-6789, 123456789, andrewd@gmail.com, Unemployed, Andrew David, AndDav@123, 
-Jack, Heimer, 03/23/1998, M, 345 ABCStreet, 345 ABCStreet, 123-45-9876, 9875241638, JackH@gmail.com, Engineer, JackHeimer, JH@123, 
-John, Doe, 10/10/1993, Male, 894 ACDStreet, 894 ACDStreet, 984-28-2138, 1239581942, johnD@gmail.com, Doctor, JohnDoe, JD@123, 

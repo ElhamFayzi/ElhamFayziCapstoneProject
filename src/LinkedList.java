@@ -49,7 +49,7 @@ public class LinkedList {
     }
 
     // Sorts the linked list using a comparator for sorting
-    public static void sort (LinkedList list, int size) {
+    public static void bubbleSort(LinkedList list, int size) {
         LenderNameComparator comparator = new LenderNameComparator();
         boolean haveSwapped;
 
@@ -95,7 +95,6 @@ public class LinkedList {
         n2.next = n1;
     }
 
-    // Writes the data of all cars in the list to a PrintWriter
     public void writeToPrintWriter (PrintWriter writer) {
         Node curr = this.head;
         while (curr != null) {
@@ -107,5 +106,23 @@ public class LinkedList {
     public boolean isEmpty() {
         return (head == null);
     }
+
+    public void remove(Node n) {
+    if (n == null || head == null) return;
+
+    if (head == n) {
+        head = head.next;
+        return;
+    }
+
+    Node current = head;
+    while (current.next != null && current.next != n) {
+        current = current.next;
+    }
+
+    if (current.next == n) {
+        current.next = n.next;
+    }
+}
 
 }

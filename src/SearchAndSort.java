@@ -35,6 +35,47 @@ public class SearchAndSort {
         else return recursiveBinarySearch(lenders, target, left, m - 1);
     }
 
+    public static void mergeSort(ArrayList<Lender> a, ArrayList<Lender> tmp, int left, int right){
+        if (left == right) return;
+
+        int middle = left + (right - left) / 2;
+        mergeSort(a, tmp, left, middle);
+        mergeSort(a, tmp, middle + 1, right);
+
+        mergeSortedLists(a, tmp, left, middle, right);
+    }
+    public static void mergeSortedLists(ArrayList<Lender> a, ArrayList<Lender> tmp, int left, int middle, int right){
+        ComparatorsUtil comparator = new ComparatorsUtil();
+        tmp.clear();
+
+        int i = left;
+        int j = middle + 1;
+
+        while (i <= middle && j <= right) {
+            if (comparator.compare(a.get(i), a.get(j)) < 0) {
+                tmp.add(a.get(i));
+                i++;
+            }
+            else {
+                tmp.add(a.get(j));
+                j++;
+            }
+        }
+
+        while (i <= middle) {
+            tmp.add(a.get(i));
+            i++;
+        }
+
+        while (j <= right) {
+            tmp.add(a.get(j));
+            j++;
+        }
+
+        for (int k = 0; k < tmp.size(); k++) {
+            a.set(left + k, tmp.get(k));
+        }
+    }
     // ----------------------------
     // SELF NOTES: CAN ADD A RECURSIVE LINEAR SEARCH, TOO, IF NEEDED TO FIND AN ENTRY BASED ON DIFFERENT ASPECT THAN NAME
     // ----------------------------
