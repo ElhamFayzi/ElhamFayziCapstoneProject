@@ -1,12 +1,8 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class User {
-    private ArrayList<Loan> userLoanApplications = new ArrayList<Loan>();
-
     //User's information
     private final String firstName;
     private final String lastName;
@@ -21,7 +17,6 @@ public class User {
     private String occupation;
 
     //User's login information
-    private final String userID;
     private String username;
     private String password;
 
@@ -46,8 +41,6 @@ public class User {
         this.password = data[11];
 
         this.balance = Double.parseDouble(data[12]);                       // Change this later
-        this.userID = generateUserID();
-
     }
 
     public void setPhysicalAddress (String physicalAddress) {
@@ -130,10 +123,6 @@ public class User {
 
     public boolean matchLogin (String username, String password) {
         return username.equals(this.username) && password.equals(this.password);
-    }
-
-    private String generateUserID () {
-        return UUID.randomUUID().toString();
     }
 
     public boolean showLoanApplications () {
