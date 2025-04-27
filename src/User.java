@@ -22,9 +22,6 @@ public class User {
 
     //User's Financial Information
     private double balance;
-    private double loanBalance;                     // **** ADD THIS SOMEWHERE TO THE CONSTRUCTOR, TOO
-    private Loan userLoan;
-
 
     public User (String[] data) {
         this.firstName = data[0];
@@ -40,7 +37,7 @@ public class User {
         this.username = data[10];
         this.password = data[11];
 
-        this.balance = Double.parseDouble(data[12]);                       // Change this later
+        this.balance = Double.parseDouble(data[12]);
     }
 
     public void setPhysicalAddress (String physicalAddress) {
@@ -67,8 +64,8 @@ public class User {
         this.username = userName;
     }
 
-    public void setPassword (String password) {                         // Can improve this to get two arguments and change the password only if they both match
-        this.password = password;                                       // No getter for password
+    public void setPassword (String password) {
+        this.password = password;
     }
 
     public String getPhysicalAddress() {

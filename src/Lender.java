@@ -1,9 +1,8 @@
 public class Lender {
-    // To be completed in the next milestones
-    private String category;                            // Can create some subclasses for each category, since the required values for each category are different
+    private String category;
     private String name;
 
-    private double minAPR;                                 // Should probably choose another name to avoid ambiguity
+    private double minAPR;
     private double maxAPR;
     private int maxLoanTermMonths;
     private int minCreditScore;

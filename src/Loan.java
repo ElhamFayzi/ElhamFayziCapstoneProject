@@ -3,7 +3,6 @@ import java.util.UUID;
 
 
 public class Loan {
-    // To be completed in the next milestones
     private String fullName;
     private String businessName;
     private String businessType;

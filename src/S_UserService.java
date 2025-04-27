@@ -7,7 +7,7 @@ public class S_UserService {
     private static ArrayList<User> listOfUsers = new ArrayList<User>();
     private static boolean usersLoaded = false;
 
-    private static ArrayList<Loan> requestedLoans = new ArrayList<Loan>();                      // *** MIGHT WANT TO USE A STACK FOR THIS
+    private static ArrayList<Loan> requestedLoans = new ArrayList<Loan>();
     private static boolean loanRequestsLoaded = false;
 
     public static boolean loadUsers() {
@@ -29,7 +29,7 @@ public class S_UserService {
         return !listOfUsers.isEmpty();
     }
 
-    public static boolean registerNewUser (Scanner scnr) {               // Can move this method to User class for better encapsulation
+    public static boolean registerNewUser (Scanner scnr) {
         String[] fields = {"First Name", "Last Name", "Date of Birth (MM/DD/YYYY)", "Gender", "Physical Address", "Mailing Address", "SSN", "Phone Number", "Email Address", "Occupation", "Username", "Password", "Initial Deposit"};
         String[] responses = new String[fields.length];
 
@@ -40,7 +40,7 @@ public class S_UserService {
             else {
                 System.out.print(fields[i] + ": ");
             }
-            responses[i] = scnr.nextLine();                             // FIX THIS: Add an algorithm to check if the username has already been taken
+            responses[i] = scnr.nextLine();
         }
 
         User newUser = new User(responses);
@@ -86,7 +86,7 @@ public class S_UserService {
             System.out.println("The program cannot register new users at this time. Please try again later!");
             return false;
         }
-        PrintWriter writer = new PrintWriter(fos);                      // Can move this to User class
+        PrintWriter writer = new PrintWriter(fos);
         for (String response: responses) {
             writer.print(response + ", ");
         }
@@ -97,7 +97,7 @@ public class S_UserService {
         return true;
     }
 
-    public static User searchUser (String username) {                           // **** MOVE THIS TO SearchAndSort Class
+    public static User searchUser (String username) {
         for (User user: listOfUsers) {
             if (user.getUsername().equals(username)) {
                 return user;
@@ -259,7 +259,7 @@ public class S_UserService {
                     requestedLoan.getApplicationID());
             writer.flush();
 
-            // **** To maintain a record of the loan applications of a business in individual files
+            // To maintain a record of the loan applications of a business in individual files
             fos = new FileOutputStream("../Users/" + user.getName() + ".csv", true);
             writer = new PrintWriter(fos);
 

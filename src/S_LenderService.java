@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class S_LenderService {                                           // SELF NOTE: Might want to create an interface which UserService and LenderService can implement
+public class S_LenderService {
     private static ArrayList<Lender> listOfLenders = new ArrayList<>();
     private static boolean lendersLoaded = false;
 
-    private static U_LinkedList loanRequests = null;                                  // **** CAN MAKE THIS A QUEUE
+    private static U_LinkedList loanRequests = null;
     private static boolean loanRequestsLoaded = false;
 
     private static U_Queue<Loan> approvalQueue = new U_Queue<>();
@@ -96,9 +96,6 @@ public class S_LenderService {                                           // SELF
             }
         }
 
-        // ------------------------------------------------
-        // WILL WORK ON FINDING A MORE SECURE WAY FOR LENDERS LOGIN IN NEXT MILESTONES
-        // ------------------------------------------------
         System.out.println("------------------------------------");
         System.out.print("Enter the Category Name: ");
         String category = scnr.nextLine().toLowerCase();
@@ -213,7 +210,7 @@ public class S_LenderService {                                           // SELF
             int choice;
             try {
                 choice = scnr.nextInt();
-                scnr.nextLine(); // consume leftover newline
+                scnr.nextLine();                 // consume leftover newline
             } catch (Exception e) {
                 System.out.println("Invalid input. Please enter a number.");
                 scnr.nextLine();
@@ -316,7 +313,7 @@ public class S_LenderService {                                           // SELF
                     if (idx == 1) {
                         System.out.println("No applications found for category \"" + filter + "\".");
                     }
-                    // Now approvalQueue holds only the apps you just printed
+                    // Now approvalQueue holds only the apps just printed
                     break;
 
                 case 4:
@@ -445,7 +442,6 @@ public class S_LenderService {                                           // SELF
         if (curr == null) return null;
 
         curr.obj.approve();
-        // unlink curr
         if (prev == null) {
             loanRequests.head = curr.next;
         } else {

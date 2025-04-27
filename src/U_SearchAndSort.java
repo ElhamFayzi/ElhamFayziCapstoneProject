@@ -76,7 +76,4 @@ public class U_SearchAndSort {
             a.set(left + k, tmp.get(k));
         }
     }
-    // ----------------------------
-    // SELF NOTES: CAN ADD A RECURSIVE LINEAR SEARCH, TOO, IF NEEDED TO FIND AN ENTRY BASED ON DIFFERENT ASPECT THAN NAME
-    // ----------------------------
 }

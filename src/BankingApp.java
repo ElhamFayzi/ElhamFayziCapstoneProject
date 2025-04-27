@@ -30,7 +30,7 @@ public class BankingApp {
                 scnr.nextLine();            // Flush the newline character left in the previous line
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Input. Please try again.\n");
-                scnr.nextLine();                        // *****Consume the invalid input to prevent infinite loop
+                scnr.nextLine();                        // Consume the invalid input to prevent infinite loop
                 continue;
             }
 

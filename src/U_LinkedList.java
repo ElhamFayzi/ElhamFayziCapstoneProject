@@ -8,7 +8,6 @@ public class U_LinkedList {
         head = new U_LinkedListNode(obj, null);
     }
 
-    // Appends a new node with the given SportsCar object to the end of the linked list
     public void append(Loan obj) {
         U_LinkedListNode curr = head;
 
@@ -19,8 +18,7 @@ public class U_LinkedList {
         curr.next = new U_LinkedListNode(obj, null);
     }
 
-    // Inserts a new node after the given SportsCar object if it exists in the list
-    public boolean insertAfter(Loan obj, Loan objToInsert) {                  // WARNING!!! THIS METHOD MAY NEED SOME IMPROVEMENTS + MIGHT NEED TO MODIFY THE VARIABLE NAMING
+    public boolean insertAfter(Loan obj, Loan objToInsert) {
         U_LinkedListNode curr = head;
         while (curr != null) {
             if (curr.obj == obj) {                                 // Check if the object in the current node matches the given object (same reference)
