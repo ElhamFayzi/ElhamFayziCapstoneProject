@@ -46,13 +46,13 @@ It lets:
 - **No prefix**: Core components  
   The CLI entry point (`BankingApp.java`), other main classes (`User.java`, `Lender.java`, `Loan.java`), and their inherited classes
   
--**Directories/**
-    ─ PersonalBankingUsers.txt  --> List of Users
-    ─ LenderDirectory.csv       --> List of Lenders
-    ─ loanApplications.csv      --> Loan Applications
+- **Directories/**
+  - PersonalBankingUsers.txt  --> List of Users
+  -  LenderDirectory.csv       --> List of Lenders
+  -  loanApplications.csv      --> Loan Applications
 
 - **Users/**
-    ─ <First Last>.csv          --> Loan Applications of individual users
+  - <First Last>.csv          --> Loan Applications of individual users
 
 ---
 
