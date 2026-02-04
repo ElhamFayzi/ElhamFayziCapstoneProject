@@ -58,7 +58,7 @@ It lets:
 
 ## Quick Start 
 - **Personal Banking**
-   -  _src/ java BankingApp.java 1_
+``` _src/ java BankingApp.java 1_```
 
 - **Businesses and Lenders**
-   -  _src/ java BankingApp.java 2_
+```_src/ java BankingApp.java 2_```
